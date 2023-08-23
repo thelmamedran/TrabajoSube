@@ -1,12 +1,12 @@
 <?php
 namespace TrabajoSube;
-class Boleto {
-    public $saldo_restante;
-    public $pudo_viajar; 
 
-    public function __construct($saldo_restante, $pudo_viajar) {
+class Boleto {
+    public float $saldo_restante;
+    public bool $puede_viajar;
+
+    public function __construct(float $saldo_restante, bool $puede_viajar) {
         $this->saldo_restante = $saldo_restante;
-        $this->pudo_viajar = $pudo_viajar;
+        $this->puede_viajar = $puede_viajar;
     }
 }
-
