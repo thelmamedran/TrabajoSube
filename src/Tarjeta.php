@@ -29,4 +29,8 @@ class Tarjeta {
     public function actualizarSaldo(float $monto) {
         $this->saldo += $monto;
     }
+
+    public function pagarViaje(float $tarifa){
+        $this->actualizarSaldo(-$tarifa);
+    }
 }
