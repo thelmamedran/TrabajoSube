@@ -1,1 +1,1 @@
-{"version":1,"defects":[],"times":{"TrabajoSube\\ColectivoTest::test":0.019}}
+{"version":1,"defects":{"TrabajoSube\\ColectivoTest::test":7},"times":{"TrabajoSube\\ColectivoTest::test":0.197}}

@@ -9,22 +9,23 @@ class ColectivoTest extends TestCase {
         $colectivo = new Colectivo();
         $tarjeta = new Tarjeta();
 
-        $tarjeta->cargarSaldo(150);
+        $this->assertTrue($tarjeta->cargarSaldo(150));
         $nuevo_saldo = $tarjeta->obtenerSaldo();
         $this->assertEquals($nuevo_saldo, 150);
         
-        $tarjeta->cargarSaldo(120);
+        $this->assertFalse($tarjeta->cargarSaldo(120));
         $nuevo_saldo = $tarjeta->obtenerSaldo();
         $this->assertEquals($nuevo_saldo, 150);
 
-        $tarjeta->cargarSaldo(6500);
+        $this->assertTrue($tarjeta->cargarSaldo(4000));
+        $this->assertFalse($tarjeta->cargarSaldo(4000));
         $nuevo_saldo = $tarjeta->obtenerSaldo();
-        $this->assertEquals($nuevo_saldo, 150);
+        $this->assertEquals($nuevo_saldo, 4150);
 
         $boleto = $colectivo->pagarCon($tarjeta);
 
         $this->assertInstanceOf(Boleto::class, $boleto);
-        $this->assertEquals(30, $boleto->saldo_restante);
+        $this->assertEquals(4030, $boleto->saldo_restante);
         $this->assertTrue($boleto->puede_viajar);
     }
 }

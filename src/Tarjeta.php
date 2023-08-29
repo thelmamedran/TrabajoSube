@@ -15,16 +15,15 @@ class Tarjeta {
     }
 
     public function cargarSaldo(float $monto): bool {
+        $saldo_anterior = $this->saldo;
+        
         if (in_array($monto, $this->montos_validos)) {
             if ($this->saldo + $monto <= $this->limite_saldo) {
                 $this->actualizarSaldo($monto);
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
+            } 
+        } 
+
+        return $saldo_anterior != $this->saldo;
     }
 
     public function actualizarSaldo(float $monto) {
