@@ -25,7 +25,7 @@ class ColectivoTest extends TestCase {
         $boleto = $colectivo->pagarCon($tarjeta);
 
         $this->assertInstanceOf(Boleto::class, $boleto);
-        //$this->assertEquals(4030, $boleto->saldo_restante);
-        //$this->assertTrue($boleto->puede_viajar);
+        $this->assertEquals(4030, $boleto->saldo_restante);
+        $this->assertTrue($boleto->puede_viajar);
     }
 }

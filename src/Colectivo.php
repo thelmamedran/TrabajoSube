@@ -12,7 +12,7 @@ class Colectivo {
     public function pagarCon(Tarjeta $tarjeta): Boleto {
         $saldo = $tarjeta->obtenerSaldo();
         
-        if ($saldo - $this->tarifa <= $this->limite_inf) {
+        if ($saldo - $this->tarifa >= $this->limite_inf) {
             $tarjeta->pagarViaje($this->tarifa);
             $saldo = $tarjeta->obtenerSaldo();
             $boleto = new Boleto($saldo, true);
