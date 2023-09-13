@@ -11,14 +11,14 @@ class Colectivo {
         $this->linea = $linea;
     }
 
-    public function pagarCon(Tarjeta $tarjeta): Boleto {
+    public function pagarCon(Tarjeta $tarjeta) {
 
         $saldo_inicial = $tarjeta->obtenerSaldo();
         $deuda_inicial = $tarjeta->obtenerDeuda();
         $id = $tarjeta->obtenerId();
         $tipo = $tarjeta->obtenerTipo();
 
-        $saldo_suficiente = $saldo_inicial - this->tarifa >= $this->limite_inf;
+        $saldo_suficiente = $saldo_inicial - $this->tarifa >= $this->limite_inf;
         $saldo_con_deuda_suficiente = $saldo_inicial - $this->tarifa - $deuda_inicial >= $this->limite_inf;
 
 

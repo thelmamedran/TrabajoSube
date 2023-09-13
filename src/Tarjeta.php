@@ -13,6 +13,7 @@ class Tarjeta {
         $this->id = 0;
         $this->saldo = 0;
         $this->tipo = "Normal";
+        $this->deuda_plus = 0;
     }
 
     public function obtenerSaldo(): float {
@@ -23,11 +24,11 @@ class Tarjeta {
         return $this->id;
     }
 
-    public function actualizarDeuda($deuda): float {
+    public function actualizarDeuda($deuda) {
         $this->deuda_plus += $deuda;
     }
 
-    public function reiniciarDeuda(): float {
+    public function reiniciarDeuda() {
         $this->deuda_plus = 0;
     }
 
