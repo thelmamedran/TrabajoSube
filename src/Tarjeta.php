@@ -2,12 +2,12 @@
 namespace TrabajoSube;
 
 class Tarjeta {
-    private float $saldo;
-    private int $limite_saldo = 6600;
-    private int $id;
-    private string $tipo;
-    private float $deuda_plus;
-    private array $montos_validos = array(150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 2000, 2500, 3000, 3500, 4000);
+    protected float $saldo;
+    protected int $limite_saldo = 6600;
+    protected int $id;
+    protected string $tipo;
+    protected float $deuda_plus;
+    protected array $montos_validos = array(150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 2000, 2500, 3000, 3500, 4000);
 
     public function __construct() {
         $this->id = 0;
