@@ -1,1 +1,1 @@
-{"version":1,"defects":{"TrabajoSube\\ColectivoTest::test":7,"TrabajoSube\\TarjetaTest::test":8},"times":{"TrabajoSube\\ColectivoTest::test":0.208,"TrabajoSube\\TarjetaTest::test":0.161}}
+{"version":1,"defects":{"TrabajoSube\\ColectivoTest::test":8,"TrabajoSube\\TarjetaTest::test":8,"TrabajoSube\\BoletoTest::test":8},"times":{"TrabajoSube\\ColectivoTest::test":0.249,"TrabajoSube\\TarjetaTest::test":0.161,"TrabajoSube\\BoletoTest::test":0.244}}

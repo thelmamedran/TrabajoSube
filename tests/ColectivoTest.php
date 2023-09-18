@@ -23,6 +23,10 @@ class ColectivoTest extends TestCase {
         $boleto = $colectivo->pagarCon($tarjeta);
         $this->assertNull($boleto);
 
+        $tarjeta->cargarSaldo(400);
+        $boleto = $colectivo->pagarCon($tarjeta);
+        $this->assertEquals(70, $boleto->saldo_restante);
+
         $medioboleto = new FranquiciaParcial();
         $medioboleto->cargarSaldo(150);
         $boleto = $colectivo->pagarCon($medioboleto);

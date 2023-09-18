@@ -12,34 +12,43 @@ class Colectivo {
     }
 
     public function pagarCon(Tarjeta $tarjeta) {
-
+        $tarifa = $tarjeta->tarifaAPagar($this->tarifa);
         $saldo_inicial = $tarjeta->obtenerSaldo();
         $deuda_inicial = $tarjeta->obtenerDeuda();
         $id = $tarjeta->obtenerId();
         $tipo = $tarjeta->obtenerTipo();
 
-        $saldo_suficiente = $saldo_inicial - $this->tarifa >= $this->limite_inf;
-        $saldo_con_deuda_suficiente = $saldo_inicial - $this->tarifa - $deuda_inicial >= $this->limite_inf;
+        $saldo_suficiente = $saldo_inicial - $tarifa >= $this->limite_inf;
+        $saldo_con_deuda_suficiente = $saldo_inicial - $tarifa - $deuda_inicial >= $this->limite_inf;
 
-
-        if ($saldo_con_deuda_suficiente) {
-            $tarifa_total = $this->tarifa + $deuda_inicial;
-            $tarjeta->pagarViaje($tarifa_total);
-            $tarjeta->reiniciarDeuda();
+        if ($deuda_inicial == 0) {
+            $tarjeta->pagarViaje($tarifa);
             $saldo_restante = $tarjeta->obtenerSaldo();
-        }
-        elseif ($saldo_suficiente) {
-            $tarjeta->pagarViaje($this->tarifa);
-            $tarjeta->actualizarDeuda($this->tarifa);
-            $saldo_restante = $tarjeta->obtenerSaldo();
-        } else {
-            return null;
-        }
-        $boleto = new Boleto($saldo_restante, $saldo_inicial, $id, $tipo, $tarifa_total ?? $this->tarifa, $this->linea);
-        return $boleto;
-    }         
-
-    public function obtenerLinea(): int {
-        return $this->linea;
-    }
+            if ($saldo_restante < 0) {
+                $tarjeta->actualizarDeuda(abs($saldo_restante));
+            }
+            $abono_deuda = "No abona saldo";
+            $boleto = new Boleto($saldo_restante, $saldo_inicial, $id, $tipo, $tarifa, $this->linea, $abono_deuda);
+        }  elseif ($saldo_con_deuda_suficiente) {
+                $tarifa_total = $tarifa + $deuda_inicial;
+                $tarjeta->pagarViaje($tarifa_total);
+                $tarjeta->reiniciarDeuda();
+                $saldo_restante = $tarjeta->obtenerSaldo();
+                if ($deuda_inicial != 0) {
+                    $abono_deuda = "Abona saldo $deuda_inicial";
+                } else {
+                    $abono_deuda = "No abona saldo";
+                }
+            }
+            elseif ($saldo_suficiente) {
+                $tarjeta->pagarViaje($tarifa);
+                $tarjeta->actualizarDeuda($tarifa);
+                $saldo_restante = $tarjeta->obtenerSaldo();
+                $abono_deuda = "No abona saldo";
+            } else {
+                return null;
+            }
+            $boleto = new Boleto($saldo_restante, $saldo_inicial, $id, $tipo, $tarifa_total ?? $tarifa, $this->linea, $abono_deuda);
+            return $boleto;
+        }         
 }

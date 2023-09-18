@@ -3,13 +3,13 @@ namespace TrabajoSube;
 
 class FranquiciaParcial extends Tarjeta {
     public function __construct() {
-        $this->id = 0;
+        $this->id = rand(1, 10000);
         $this->saldo = 0;
         $this->tipo = "Medio";
         $this->deuda_plus = 0;
     }
 
-    public function pagarViaje(float $tarifa){
-        $this->actualizarSaldo(-($tarifa/2));
+    public function tarifaAPagar(float $tarifa): int {
+        return $tarifa/2;
     }
 }
