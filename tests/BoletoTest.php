@@ -17,6 +17,7 @@ class BoletoTest extends TestCase {
         $this->assertEquals($boleto->saldo_restante, 30);
         $this->assertEquals($boleto->linea, 132);
         $this->assertEquals($boleto->id, $id);
+        $this->assertEquals($boleto->tipo, 'Normal');
         $this->assertEquals($boleto->monto, 120);
         $this->assertEquals($boleto->abono_deuda, 'No abona saldo');
 
@@ -36,6 +37,7 @@ class BoletoTest extends TestCase {
         $this->assertEquals($boleto->saldo_restante, 90);
         $this->assertEquals($boleto->linea, 132);
         $this->assertEquals($boleto->id, $id);
+        $this->assertEquals($boleto->tipo, 'Medio');
         $this->assertEquals($boleto->monto, 60);
         $this->assertEquals($boleto->abono_deuda, 'No abona saldo');
 
@@ -48,6 +50,7 @@ class BoletoTest extends TestCase {
         $this->assertEquals($boleto->saldo_restante, 150);
         $this->assertEquals($boleto->linea, 132);
         $this->assertEquals($boleto->id, $id);
+        $this->assertEquals($boleto->tipo, 'Gratuito');
         $this->assertEquals($boleto->monto, 0);
         $this->assertEquals($boleto->abono_deuda, 'No abona saldo');
     }
