@@ -42,10 +42,10 @@ class Tarjeta {
 
     public function cargarSaldo(float $monto): bool {
         $saldo_anterior = $this->saldo;
-        
+
         if (in_array($monto, $this->montos_validos)) {
-            if ($this->saldo + $monto <= $this->limite_saldo) {
-                $this->actualizarSaldo($monto + $deuda_plus);
+            if ($saldo_anterior + $monto <= $this->limite_saldo) {
+                $this->actualizarSaldo($monto + $this->deuda_plus);
             } 
         } 
 

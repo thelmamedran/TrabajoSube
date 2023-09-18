@@ -18,15 +18,18 @@ class ColectivoTest extends TestCase {
         $this->assertInstanceOf(Boleto::class, $boleto);
         $boleto = $colectivo->pagarCon($tarjeta);
         $this->assertInstanceOf(Boleto::class, $boleto);
-        $this->assertEquals(-210, $boleto->saldo_restante);
+        $this->assertEquals(-210, $tarjeta->obtenerSaldo());
+        $this->assertEquals(210, $tarjeta->obtenerDeuda());
         
         $boleto = $colectivo->pagarCon($tarjeta);
         $this->assertNull($boleto);
 
         $tarjeta->cargarSaldo(400);
+        $nuevo_saldo = $tarjeta->obtenerSaldo();
+        $this->assertEquals($nuevo_saldo, 400);
         $boleto = $colectivo->pagarCon($tarjeta);
         $this->assertEquals(70, $boleto->saldo_restante);
-
+        
         $medioboleto = new FranquiciaParcial();
         $medioboleto->cargarSaldo(150);
         $boleto = $colectivo->pagarCon($medioboleto);
