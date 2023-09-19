@@ -26,8 +26,4 @@ class FranquiciaParcial extends Tarjeta {
             return $tarifa;
         }
     }
-
-    public function guardarHora($mins) {
-        $this->boleto_anterior = $mins;
-    }
 }

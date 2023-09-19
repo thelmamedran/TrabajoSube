@@ -77,4 +77,8 @@ class Tarjeta {
     public function tarifaAPagar(float $tarifa): int {
         return $tarifa;
     }
+
+    public function guardarHora($mins) {
+
+    }
 }
