@@ -11,6 +11,7 @@ class Tarjeta {
     protected array $montos_validos = array(150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 2000, 2500, 3000, 3500, 4000);
 
     public function __construct() {
+        $this->saldo_a_favor = 0;
         $this->id = rand(1, 10000);
         $this->saldo = 0;
         $this->tipo = "Normal";
