@@ -4,6 +4,7 @@ namespace TrabajoSube;
 class Tarjeta {
     protected float $saldo;
     protected int $limite_saldo = 6600;
+    protected int $saldo_a_favor;
     protected int $id;
     protected string $tipo;
     protected float $deuda_plus;
@@ -40,13 +41,24 @@ class Tarjeta {
         return $this->tipo;
     }
 
+    public function obtenerSaldoAFavor(): int {
+        return $this->saldo_a_favor;
+    }
+
+    public function actualizarSaldoAFavor($monto) {
+        $this->saldo_a_favor += $monto;
+    }
+
     public function cargarSaldo(float $monto): bool {
         $saldo_anterior = $this->saldo;
 
         if (in_array($monto, $this->montos_validos)) {
             if ($saldo_anterior + $monto <= $this->limite_saldo) {
                 $this->actualizarSaldo($monto + $this->deuda_plus);
-            } 
+            } else {
+                $saldo_a_favor = $saldo_anterior + $monto - $limite_saldo;
+                $this->actualizarSaldo($monto - $saldo_a_favor);
+            }
         } 
 
         return $saldo_anterior != $this->saldo;

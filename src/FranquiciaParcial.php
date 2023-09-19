@@ -3,6 +3,7 @@ namespace TrabajoSube;
 
 class FranquiciaParcial extends Tarjeta {
     private $boletos_disponibles;
+    private $boleto_anterior;
 
     public function __construct() {
         $this->id = rand(1, 10000);
@@ -13,11 +14,20 @@ class FranquiciaParcial extends Tarjeta {
     }
 
     public function tarifaAPagar(float $tarifa): int {
-        if ($this->boletos_disponibles == 0) { 
-        return $tarifa;
+        $hora_actual = time()/60;
+        if ($hora_actual - $boleto_anterior >= 5) {
+            if ($this->boletos_disponibles > 0) { 
+                $this->boletos_disponibles -= 1;
+                return $tarifa/2;
         } else {
-            $this->boletos_disponibles -= 1;
-            return $tarifa/2;
+            return $tarifa;
         }
+        }else {
+            return $tarifa;
+        }
+    }
+
+    public function guardarHora($mins) {
+        $this->boleto_anterior = $mins;
     }
 }
