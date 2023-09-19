@@ -28,7 +28,9 @@ class Colectivo {
         }
 
         $minutos = time() / 60;
+        $dia = (int)date("d");
         $tarjeta->guardarHora($minutos);
+        $tarjeta->guardarDia($dia);
         return $boleto;
     }
 

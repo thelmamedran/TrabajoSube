@@ -3,6 +3,7 @@ namespace TrabajoSube;
 
 class FranquiciaCompleta extends Tarjeta {
     private int $boletos_disponibles;
+    private int $dia_anterior;
 
     public function __construct() {
         $this->id = rand(1, 10000);
@@ -11,19 +12,23 @@ class FranquiciaCompleta extends Tarjeta {
         $this->saldo_a_favor = 0;
         $this->deuda_plus = 0;
         $this->boletos_disponibles = 2;
-
     }
 
     public function tarifaAPagar(float $tarifa): int {
-        if ($this->boletos_disponibles == 0) { 
-        return $tarifa;
+        $dia_actual = (int)date("d");
+        if ($this->dia_anterior != $dia_actual) {
+            if ($this->boletos_disponibles > 0) { 
+                $this->boletos_disponibles -= 1;
+                return 0;
+            } else {
+                return $tarifa;
+            }
         } else {
-            $this->boletos_disponibles -= 1;
-            return 0;
+            return $tarifa;
         }
     }
-
-    public function reiniciarBoleto (){
-        //validar la franquicia solo según días de semana y hora
+    
+    public function guardarDia($dia) {
+        $this->dia_anterior = $dia;
     }
 }

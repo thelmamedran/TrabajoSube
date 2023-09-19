@@ -81,4 +81,8 @@ class Tarjeta {
     public function guardarHora($mins) {
 
     }
+
+    public function guardarDia($dia) {
+
+    }
 }
