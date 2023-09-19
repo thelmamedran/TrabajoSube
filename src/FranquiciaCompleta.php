@@ -11,6 +11,7 @@ class FranquiciaCompleta extends Tarjeta {
         $this->tipo = "Gratuito";
         $this->saldo_a_favor = 0;
         $this->deuda_plus = 0;
+        $this->dia_anterior = 0;
         $this->boletos_disponibles = 2;
     }
 
@@ -27,7 +28,7 @@ class FranquiciaCompleta extends Tarjeta {
             return $tarifa;
         }
     }
-    
+
     public function guardarDia($dia) {
         $this->dia_anterior = $dia;
     }
