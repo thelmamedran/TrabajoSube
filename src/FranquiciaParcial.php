@@ -9,6 +9,7 @@ class FranquiciaParcial extends Tarjeta {
         $this->id = rand(1, 10000);
         $this->saldo = 0;
         $this->tipo = "Medio";
+        $this->saldo_a_favor = 0;
         $this->deuda_plus = 0;
         $this->boletos_disponibles = 4;
     }
