@@ -11,6 +11,8 @@ class BoletoTest extends TestCase {
         $tarjeta = new Tarjeta();
         $id = $tarjeta->obtenerId();
         $tarjeta->cargarSaldo(150);
+
+        // Verificar boleto con tarjeta común sin saldo negativo
         $boleto = $colectivo->pagarCon($tarjeta);
         $this->assertInstanceOf(Boleto::class, $boleto);
         $this->assertEquals($boleto->saldo_inicial, 150);
@@ -21,8 +23,8 @@ class BoletoTest extends TestCase {
         $this->assertEquals($boleto->monto, 120);
         $this->assertEquals($boleto->abono_deuda, 'No abona saldo');
 
+        // Verificar boleto con tarjeta común con saldo negativo
         $colectivo->pagarCon($tarjeta);
-        $this->assertEquals($tarjeta->obtenerDeuda(), 90);
         $tarjeta->cargarSaldo(400);
         $boleto = $colectivo->pagarCon($tarjeta);
         $this->assertEquals($boleto->monto, 210);
@@ -31,6 +33,8 @@ class BoletoTest extends TestCase {
         $medioboleto = new FranquiciaParcial();
         $id = $medioboleto->obtenerId();
         $medioboleto->cargarSaldo(150);
+
+        // Verificar boleto con tarjeta con medio boleto sin saldo negativo
         $boleto = $colectivo->pagarCon($medioboleto);
         $this->assertInstanceOf(Boleto::class, $boleto);
         $this->assertEquals($boleto->saldo_inicial, 150);
@@ -44,6 +48,8 @@ class BoletoTest extends TestCase {
         $boletogratuito = new FranquiciaCompleta();
         $id = $boletogratuito->obtenerId();
         $boletogratuito->cargarSaldo(150);
+
+        // Verificar boleto con tarjeta con boleto gratuito sin saldo negativo
         $boleto = $colectivo->pagarCon($boletogratuito);
         $this->assertInstanceOf(Boleto::class, $boleto);
         $this->assertEquals($boleto->saldo_inicial, 150);

@@ -17,18 +17,20 @@ class FranquiciaCompleta extends Tarjeta {
 
     public function tarifaAPagar(float $tarifa): int {
         $dia_actual = (int)date("d");
-        if ($this->dia_anterior != $dia_actual) {
+        
+        if ($this->dia_anterior == $dia_actual) {
             if ($this->boletos_disponibles > 0) { 
                 $this->boletos_disponibles -= 1;
                 return 0;
-            } else {
-                return $tarifa;
             }
         } else {
-            return $tarifa;
+            $this->boletos_disponibles = 1;
+            return 0;
         }
+        
+        return $tarifa;
     }
-
+    
     public function guardarDia($dia) {
         $this->dia_anterior = $dia;
     }

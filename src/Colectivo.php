@@ -17,12 +17,12 @@ class Colectivo {
         $saldo_inicial = $tarjeta->obtenerSaldo();
         $deuda_inicial = $tarjeta->obtenerDeuda();
 
-        if ($deuda_inicial == 0) {
+        if ($deuda_inicial == 0 && $saldo_inicial - $tarifa >= $this->limite_inf) {
             $boleto = $this->pagarSinDeuda($tarjeta, $saldo_a_favor, $tarifa, $saldo_inicial);
+        } elseif ($saldo_inicial - $tarifa - $deuda_inicial >= $this->limite_inf) {
+            $boleto = $this->pagarConDeudaSuficiente($tarjeta, $tarifa, $deuda_inicial, $saldo_inicial);        
         } elseif ($saldo_inicial - $tarifa >= $this->limite_inf) {
             $boleto = $this->pagarConSaldoSuficiente($tarjeta, $tarifa, $deuda_inicial, $saldo_inicial);
-        } elseif ($saldo_inicial - $tarifa - $deuda_inicial >= $this->limite_inf) {
-            $boleto = $this->pagarConDeudaSuficiente($tarjeta, $tarifa, $deuda_inicial, $saldo_inicial);
         } else {
             return null;
         }
@@ -51,22 +51,27 @@ class Colectivo {
         return $this->crearBoleto($tarjeta, $tarifa, $saldo_inicial, $abono_deuda);
     }
 
-    private function pagarConSaldoSuficiente($tarjeta, $tarifa, $deuda_inicial, $saldo_inicial) {
+    private function pagarConDeudaSuficiente($tarjeta, $tarifa, $deuda_inicial, $saldo_inicial) {
         $tarifa_total = $tarifa + $deuda_inicial;
         $tarjeta->pagarViaje($tarifa_total);
         $tarjeta->reiniciarDeuda();
         $saldo_restante = $tarjeta->obtenerSaldo();
         $abono_deuda = "Abona saldo $deuda_inicial";
         
+        $saldo_restante = $tarjeta->obtenerSaldo();
+        if ($saldo_restante < 0) {
+            $tarjeta->actualizarDeuda(abs($saldo_restante));
+        }
+        
         return $this->crearBoleto($tarjeta, $tarifa_total, $saldo_inicial, $abono_deuda);
     }
 
-    private function pagarConDeudaSuficiente($tarjeta, $tarifa, $deuda_inicial, $saldo_inicial) {
+    private function pagarConSaldoSuficiente($tarjeta, $tarifa, $deuda_inicial, $saldo_inicial) {
         $tarjeta->pagarViaje($tarifa);
         $tarjeta->actualizarDeuda($tarifa);
         $saldo_restante = $tarjeta->obtenerSaldo();
         $abono_deuda = "No abona saldo";
-        
+
         return $this->crearBoleto($tarjeta, $tarifa, $saldo_inicial, $abono_deuda);
     }
 

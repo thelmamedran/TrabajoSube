@@ -57,8 +57,8 @@ class Tarjeta {
             if ($saldo_anterior + $monto <= $this->limite_saldo) {
                 $this->actualizarSaldo($monto + $this->deuda_plus);
             } else {
-                $saldo_a_favor = $saldo_anterior + $monto - $limite_saldo;
-                $this->actualizarSaldo($monto - $saldo_a_favor);
+                $this->saldo_a_favor = $saldo_anterior + $monto - $this->limite_saldo;
+                $this->actualizarSaldo($monto - $this->saldo_a_favor);
             }
         } 
 
