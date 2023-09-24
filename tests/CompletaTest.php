@@ -56,12 +56,9 @@ class CompletaTest extends TestCase {
 
         // Verificar en el mismo dia solo hay 2 gratuitos
         $boletogratuito2 = new FranquiciaCompleta();
-        $tiempo = 1695265132;
-        $dia1 = (int)date("d", $tiempo);
         $boletogratuito2->cargarSaldo(300);
         $colectivo->pagarCon($boletogratuito2);
         $colectivo->pagarCon($boletogratuito2);
-        $boletogratuito2->guardarDia($dia1);
         $colectivo->pagarCon($boletogratuito2);
         $nuevo_saldo = $boletogratuito2->obtenerSaldo();
         $this->assertEquals($nuevo_saldo, 180);
