@@ -7,6 +7,8 @@ class Tarjeta {
     protected int $saldo_a_favor;
     protected int $id;
     protected string $tipo;
+    private int $viajes;
+    private int $mes;
     protected float $deuda_plus;
     protected array $montos_validos = array(150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 2000, 2500, 3000, 3500, 4000);
 
@@ -14,6 +16,8 @@ class Tarjeta {
         $this->saldo_a_favor = 0;
         $this->id = rand(1, 10000);
         $this->saldo = 0;
+        $this->mes = 0;
+        $this->viajes = 0;
         $this->tipo = "Normal";
         $this->deuda_plus = 0;
     }
@@ -69,20 +73,41 @@ class Tarjeta {
         $this->saldo += $monto;
     }
 
-    public function pagarViaje(float $tarifa): int {
+    public function pagarViaje(float $tarifa) {
         $this->actualizarSaldo(-$tarifa);
+    }
+
+    public function tarifaAPagar(float $tarifa): float {
+
+        $this->verificarViajes();
+        if ($this->viajes > 29) {
+            if ($this->viajes > 79) {
+                $tarifa = $tarifa - ($tarifa * 25) / 100;
+            } else {
+                $tarifa = $tarifa - ($tarifa * 20) / 100;
+            }
+        }
+        
+        $this->viajes += 1;
         return $tarifa;
     }
 
-    public function tarifaAPagar(float $tarifa): int {
-        return $tarifa;
+    public function guardarMes($mes) {
+        $this->mes = $mes;
     }
 
-    public function guardarHora($mins) {
+    private function verificarViajes() {
+        $mes_actual = date('m');
 
+        if ($mes_actual != $this->mes) {
+            $this->mes = $mes_actual;
+            $this->viajes = 1;
+            $this->reiniciarViajes();
+        }
     }
 
-    public function guardarDia($dia) {
-
+    private function reiniciarViajes() {
+        $this->viajes = 1;
     }
+
 }
