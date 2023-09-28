@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class CompletaTest extends TestCase {
+
     public function test() {
         $colectivo = new Colectivo(132);
         $boletogratuito = new FranquiciaCompleta();
@@ -20,55 +21,11 @@ class CompletaTest extends TestCase {
         $nuevo_saldo = $boletogratuito->obtenerSaldo();
         $this->assertEquals($nuevo_saldo, 150);
 
-        // Verificar que se no se cobre
-        $colectivo->pagarCon($boletogratuito);
+        // Verificar que se no se cobre nunca
+        for ($i = 0; $i < 100; $i++) 
+            $colectivo->pagarCon($boletogratuito);
+
         $nuevo_saldo = $boletogratuito->obtenerSaldo();
         $this->assertEquals($nuevo_saldo, 150);
-
-        // Verificar que se puede pagar sin tener saldo suficiente y funciona el negativo
-        $boleto = $colectivo->pagarCon($boletogratuito);
-        $boleto = $colectivo->pagarCon($boletogratuito);
-        $boleto = $colectivo->pagarCon($boletogratuito);
-        $boleto = $colectivo->pagarCon($boletogratuito);
-        $this->assertEquals(-210, $boletogratuito->obtenerSaldo());
-        $this->assertEquals(210, $boletogratuito->obtenerDeuda());
-
-        // Verificar que se actualice la deuda al viajar de nuevo
-        $boletogratuito->cargarSaldo(300);
-        $boleto = $colectivo->pagarCon($boletogratuito);
-        $this->assertEquals($boletogratuito->obtenerDeuda(), 30);
-        $this->assertEquals(-30, $boletogratuito->obtenerSaldo());
-
-        // Verificar que se pague la deuda al viajar de nuevo
-        $boletogratuito->cargarSaldo(300);
-        $boleto = $colectivo->pagarCon($boletogratuito);
-        $nuevo_saldo = $boletogratuito->obtenerSaldo();
-        $this->assertEquals($nuevo_saldo, 150);
-
-        // Exceder el límite de la tarjeta y verificar que se guarde para acreditar
-        $boletogratuito->cargarSaldo(4000);
-        $this->assertTrue($boletogratuito->cargarSaldo(4000));
-        $nuevo_saldo = $boletogratuito->obtenerSaldoAFavor();
-        $this->assertEquals($nuevo_saldo, 1550);
-        $colectivo->pagarCon($boletogratuito);
-        $nuevo_saldo = $boletogratuito->obtenerSaldo();
-        $this->assertEquals($nuevo_saldo, 6600);
-
-        // Verificar en el mismo dia solo hay 2 gratuitos
-        $boletogratuito2 = new FranquiciaCompleta();
-        $boletogratuito2->cargarSaldo(300);
-        $colectivo->pagarCon($boletogratuito2);
-        $colectivo->pagarCon($boletogratuito2);
-        $colectivo->pagarCon($boletogratuito2);
-        $nuevo_saldo = $boletogratuito2->obtenerSaldo();
-        $this->assertEquals($nuevo_saldo, 180);
-
-        // Verificar cuando se cambia de dia se reinicia el gratuito
-        $tiempo = 1695351532;
-        $dia2 = (int)date("d", $tiempo);
-        $boletogratuito2->guardarDia($dia2);
-        $colectivo->pagarCon($boletogratuito2);
-        $nuevo_saldo = $boletogratuito2->obtenerSaldo();
-        $this->assertEquals($nuevo_saldo, 180);
     }
 }

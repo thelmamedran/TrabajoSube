@@ -16,8 +16,8 @@ class FranquiciaParcial extends Tarjeta {
         $this->boletos_disponibles = 4;
     }
 
-    public function tarifaAPagar(float $tarifa): int {
-        $hora_actual = time() / 60;
+    public function tarifaAPagar(float $tarifa): float {
+        $hora_actual = (int)date('i');
         $dia_actual = (int)date("d");
         
         if ($this->dia_anterior == $dia_actual) {
@@ -28,10 +28,12 @@ class FranquiciaParcial extends Tarjeta {
                 }
             } 
         } else {
+            $this->guardarDia($dia_actual);
+            $this->guardarMin($hora_actual);
             $this->boletos_disponibles = 3;
             return $tarifa/2;
         }
-        
+
         return $tarifa;
     }
 
@@ -39,7 +41,7 @@ class FranquiciaParcial extends Tarjeta {
         $this->dia_anterior = $dia;
     }
 
-    public function guardarHora($mins) {
+    public function guardarMin($mins) {
         $this->minuto_anterior = $mins;
     }
 }

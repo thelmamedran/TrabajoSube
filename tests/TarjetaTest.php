@@ -46,5 +46,30 @@ class TarjetaTest extends TestCase {
         $colectivo->pagarCon($tarjeta);
         $nuevo_saldo = $tarjeta->obtenerSaldo();
         $this->assertEquals($nuevo_saldo, 6600);
+        
+        // Verificar que a los 30 boletos se hace un 20%
+        for ($i = 0; $i < 23; $i++) 
+            $colectivo->pagarCon($tarjeta);
+        $colectivo->pagarCon($tarjeta);
+        $nuevo_saldo = $tarjeta->obtenerSaldo();
+        $this->assertEquals($nuevo_saldo, 5174);
+        
+        // Verificar que a los 80 boletos se hace un 25%
+        for ($i = 0; $i < 26; $i++) 
+            $colectivo->pagarCon($tarjeta);
+        $tarjeta->cargarSaldo(4000);
+        for ($i = 0; $i < 23; $i++) 
+            $colectivo->pagarCon($tarjeta);
+        $colectivo->pagarCon($tarjeta);
+        $nuevo_saldo = $tarjeta->obtenerSaldo();
+        $this->assertEquals($nuevo_saldo, 4380);
+
+        // Verificar que cuando cambia el mes el descuento se reinicia
+        $mes = date('m') + 1;
+        $tarjeta->guardarMes($mes);
+        $colectivo->pagarCon($tarjeta);
+        $nuevo_saldo = $tarjeta->obtenerSaldo();
+        $this->assertEquals($nuevo_saldo, 4260);
+
     }
 }

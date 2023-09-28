@@ -64,9 +64,8 @@ class ParcialTest extends TestCase {
         $this->assertEquals($nuevo_saldo, 120);
         
         // Verificar que con mas de 5 minutos de diferencia se vuelva a cobrar el medio
-        $tiempo = 1695237952;
-        $min1 = $tiempo/60;
-        $medioboleto2->guardarHora($min1);
+        $min_adelantado = (int)date('i') + 6;
+        $medioboleto2->guardarMin($min_adelantado);
         $colectivo->pagarCon($medioboleto2);
         $nuevo_saldo = $medioboleto2->obtenerSaldo();
         $this->assertEquals($nuevo_saldo, 60);
