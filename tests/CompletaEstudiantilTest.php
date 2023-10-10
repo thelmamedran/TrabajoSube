@@ -9,6 +9,8 @@ class CompletaEstudiantilTest extends TestCase {
     public function test() {
         $colectivo = new Colectivo(132);
         $boletogratuito = new FranquiciaCompletaEstudiantil();
+        $tarifa = 120;
+        $tarifa_estudiantil = 0;
 
         // Cargar monto válido y verificar que se cargue
         $this->assertTrue($boletogratuito->cargarSaldo(150));
@@ -26,24 +28,29 @@ class CompletaEstudiantilTest extends TestCase {
         $this->assertEquals($nuevo_saldo, 150);
 
         // Verificar que se puede pagar sin tener saldo suficiente y funciona el negativo
+        $saldo_anterior = $boletogratuito->obtenerSaldo();
         $boleto = $colectivo->pagarCon($boletogratuito);
         $boleto = $colectivo->pagarCon($boletogratuito);
         $boleto = $colectivo->pagarCon($boletogratuito);
         $boleto = $colectivo->pagarCon($boletogratuito);
-        $this->assertEquals(-210, $boletogratuito->obtenerSaldo());
-        $this->assertEquals(210, $boletogratuito->obtenerDeuda());
+        $this->assertEquals($saldo_anterior - ($tarifa * 3), $boletogratuito->obtenerSaldo());
+        $this->assertEquals(-($saldo_anterior - ($tarifa * 3)), $boletogratuito->obtenerDeuda());
 
         // Verificar que se actualice la deuda al viajar de nuevo
         $boletogratuito->cargarSaldo(300);
+        $deuda_anterior = $boletogratuito->obtenerDeuda();
+        $saldo_anterior = $boletogratuito->obtenerSaldo();
         $boleto = $colectivo->pagarCon($boletogratuito);
-        $this->assertEquals($boletogratuito->obtenerDeuda(), 30);
-        $this->assertEquals(-30, $boletogratuito->obtenerSaldo());
+        $deuda = $boletogratuito->obtenerDeuda();
+        $this->assertEquals($deuda, 30);
+        $this->assertEquals($saldo_anterior - $deuda_anterior - $tarifa, $boletogratuito->obtenerSaldo());
 
         // Verificar que se pague la deuda al viajar de nuevo
         $boletogratuito->cargarSaldo(300);
+        $saldo_anterior = $boletogratuito->obtenerSaldo();
         $boleto = $colectivo->pagarCon($boletogratuito);
         $nuevo_saldo = $boletogratuito->obtenerSaldo();
-        $this->assertEquals($nuevo_saldo, 150);
+        $this->assertEquals($nuevo_saldo, $saldo_anterior - $deuda - $tarifa);
 
         // Exceder el límite de la tarjeta y verificar que se guarde para acreditar
         $boletogratuito->cargarSaldo(4000);
@@ -57,17 +64,19 @@ class CompletaEstudiantilTest extends TestCase {
         // Verificar en el mismo dia solo hay 2 gratuitos
         $boletogratuito2 = new FranquiciaCompletaEstudiantil();
         $boletogratuito2->cargarSaldo(300);
+        $saldo_anterior = $boletogratuito2->obtenerSaldo();
         $colectivo->pagarCon($boletogratuito2);
         $colectivo->pagarCon($boletogratuito2);
         $colectivo->pagarCon($boletogratuito2);
         $nuevo_saldo = $boletogratuito2->obtenerSaldo();
-        $this->assertEquals($nuevo_saldo, 180);
+        $this->assertEquals($nuevo_saldo, $saldo_anterior - ($tarifa_estudiantil * 2) - $tarifa);
 
         // Verificar cuando se cambia de dia se reinicia el gratuito
         $dia_adelantado = (int)date('d')+1;
         $boletogratuito2->guardarDia($dia_adelantado);
+        $saldo_anterior = $boletogratuito2->obtenerSaldo();
         $colectivo->pagarCon($boletogratuito2);
         $nuevo_saldo = $boletogratuito2->obtenerSaldo();
-        $this->assertEquals($nuevo_saldo, 180);
+        $this->assertEquals($nuevo_saldo, $saldo_anterior - $tarifa_estudiantil);
     }
 }

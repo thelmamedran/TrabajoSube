@@ -19,7 +19,7 @@ class Colectivo {
 
         if ($deuda_inicial == 0 && $saldo_inicial - $tarifa >= $this->limite_inf) {
             $boleto = $this->pagarSinDeuda($tarjeta, $saldo_a_favor, $tarifa, $saldo_inicial);
-        } elseif ($saldo_inicial - $tarifa - $deuda_inicial >= $this->limite_inf) {
+        } elseif ($saldo_inicial > 0 && $saldo_inicial - $tarifa - $deuda_inicial >= $this->limite_inf) {
             $boleto = $this->pagarConDeudaSuficiente($tarjeta, $tarifa, $deuda_inicial, $saldo_inicial);        
         } elseif ($saldo_inicial - $tarifa >= $this->limite_inf) {
             $boleto = $this->pagarConSaldoSuficiente($tarjeta, $tarifa, $deuda_inicial, $saldo_inicial);
