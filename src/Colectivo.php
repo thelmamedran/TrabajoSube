@@ -11,9 +11,13 @@ class Colectivo {
         $this->linea = $linea;
     }
 
+    protected function obtenerTarifa(Tarjeta $tarjeta) {
+        return $this->tarifa;
+    }
+
     public function pagarCon(Tarjeta $tarjeta) {
         $saldo_a_favor = $tarjeta->obtenerSaldoAFavor();
-        $tarifa = $tarjeta->tarifaAPagar($this->tarifa);
+        $tarifa = $tarjeta->tarifaAPagar($this->obtenerTarifa($tarjeta));
         $saldo_inicial = $tarjeta->obtenerSaldo();
         $deuda_inicial = $tarjeta->obtenerDeuda();
 

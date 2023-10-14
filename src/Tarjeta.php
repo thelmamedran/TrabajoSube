@@ -110,4 +110,10 @@ class Tarjeta {
         $this->viajes = 1;
     }
 
+    private function esHoraValida(): bool {
+        $dia_semana = date('N');  
+        $hora_actual = date('H');
+        return ($dia_semana >= 1 && $dia_semana <= 5) && ($hora_actual >= 6 && $hora_actual < 22);
+    }
+
 }

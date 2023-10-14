@@ -18,21 +18,22 @@ class FranquiciaCompletaEstudiantil extends FranquiciaCompleta {
     public function tarifaAPagar(float $tarifa): float {
         $dia_actual = (int)date("d");
         
-        if ($this->dia_anterior == $dia_actual) {
-            if ($this->boletos_disponibles > 0) { 
-                $this->boletos_disponibles -= 1;
+        if ($this->esHoraValida()) {
+            if ($this->dia_anterior == $dia_actual) {
+                if ($this->boletos_disponibles > 0) { 
+                    $this->boletos_disponibles -= 1;
+                    return 0;
+                }
+            } else {
+                $this->guardarDia($dia_actual);
+                $this->boletos_disponibles = 1;
                 return 0;
             }
-        } else {
-            $this->guardarDia($dia_actual);
-            $this->boletos_disponibles = 1;
-            return 0;
         }
-        
         return $tarifa;
     }
-    
+
     public function guardarDia($dia) {
         $this->dia_anterior = $dia;
     }
-}
+} 
