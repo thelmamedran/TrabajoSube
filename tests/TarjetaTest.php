@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class TarjetaTest extends TestCase {
     public function test() {
-        $colectivo = new Colectivo(132);
+        $colectivo = new Colectivo(132, false);
         $tarjeta = new Tarjeta();
         $tarifa = 120;
 

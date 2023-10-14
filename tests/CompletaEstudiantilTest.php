@@ -7,7 +7,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class CompletaEstudiantilTest extends TestCase {
     public function test() {
-        $colectivo = new Colectivo(132);
+        $colectivo = new Colectivo(132, false);
         $boletogratuito = new FranquiciaCompletaEstudiantil();
         $tarifa = 120;
         $tarifa_estudiantil = 0;

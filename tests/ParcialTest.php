@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class ParcialTest extends TestCase {
     public function test() {
-        $colectivo = new Colectivo(132);
+        $colectivo = new Colectivo(132, false);
         $medioboleto = new FranquiciaParcial();
 
         $tarifa = 120;

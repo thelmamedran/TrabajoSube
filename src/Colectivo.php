@@ -4,15 +4,22 @@ namespace TrabajoSube;
 
 class Colectivo {
     private int $tarifa = 120;
+    private int $tarifa_interurbana = 184;
     private int $linea;
     private float $limite_inf = -211.84;
-    
-    public function __construct($linea){
+    private bool $es_interurbano;
+
+    public function __construct($linea, $es_interurbano ){
         $this->linea = $linea;
+        $this->es_interurbano = $es_interurbano;
     }
 
     protected function obtenerTarifa(Tarjeta $tarjeta) {
-        return $this->tarifa;
+        if ($this->es_interurbano) {
+            return $this->tarifa_interurbana;
+        } else {
+            return $this->tarifa;
+        }
     }
 
     public function pagarCon(Tarjeta $tarjeta) {
