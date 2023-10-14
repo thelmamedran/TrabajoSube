@@ -28,11 +28,11 @@ class Colectivo {
         $saldo_inicial = $tarjeta->obtenerSaldo();
         $deuda_inicial = $tarjeta->obtenerDeuda();
 
-        if ($deuda_inicial == 0 && $saldo_inicial >= $tarifa) {
+        if ($deuda_inicial == 0 && $saldo_inicial - $tarifa >= $this->limite_inf) {
             $boleto = $this->pagarSinDeuda($tarjeta, $saldo_a_favor, $tarifa, $saldo_inicial);
-        } elseif ($saldo_inicial > 0 && $saldo_inicial - $deuda_inicial >= $tarifa) {
+        } elseif ($saldo_inicial > 0 && $saldo_inicial - $tarifa - $deuda_inicial >= $this->limite_inf) {
             $boleto = $this->pagarConDeudaSuficiente($tarjeta, $tarifa, $deuda_inicial, $saldo_inicial);        
-        } elseif ($saldo_inicial >= $tarifa) {
+        } elseif ($saldo_inicial - $tarifa >= $this->limite_inf) {
             $boleto = $this->pagarConSaldoSuficiente($tarjeta, $tarifa, $deuda_inicial, $saldo_inicial);
         } else {
             return null;
@@ -40,8 +40,6 @@ class Colectivo {
         
         return $boleto;
     }
- 
-    
 
     private function pagarSinDeuda($tarjeta, $saldo_a_favor, $tarifa, $saldo_inicial) {
         if ($saldo_a_favor < $tarifa) {
@@ -74,15 +72,16 @@ class Colectivo {
         
         return $this->crearBoleto($tarjeta, $tarifa_total, $saldo_inicial, $abono_deuda);
     }
-
+    
     private function pagarConSaldoSuficiente($tarjeta, $tarifa, $deuda_inicial, $saldo_inicial) {
         $tarjeta->pagarViaje($tarifa);
         $tarjeta->actualizarDeuda($tarifa);
         $saldo_restante = $tarjeta->obtenerSaldo();
-        $abono_deuda = "No abona saldo";
-
+        $abono_deuda = $tarifa === 0 ? 'No abona saldo' : 'Abona saldo ' . $deuda_inicial;
+    
         return $this->crearBoleto($tarjeta, $tarifa, $saldo_inicial, $abono_deuda);
     }
+    
 
     private function crearBoleto($tarjeta, $tarifa, $saldo_inicial, $abono_deuda) {
         $id = $tarjeta->obtenerId();
