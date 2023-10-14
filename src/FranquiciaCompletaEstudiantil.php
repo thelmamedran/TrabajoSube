@@ -24,6 +24,7 @@ class FranquiciaCompletaEstudiantil extends FranquiciaCompleta {
                     $this->boletos_disponibles -= 1;
                     return 0;
                 }
+                return $tarifa;
             } else {
                 $this->guardarDia($dia_actual);
                 $this->boletos_disponibles = 1;

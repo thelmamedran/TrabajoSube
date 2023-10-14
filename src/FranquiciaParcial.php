@@ -25,20 +25,21 @@ class FranquiciaParcial extends Tarjeta {
                 if (abs($hora_actual - $this->minuto_anterior) >= 5) {
                     if ($this->boletos_disponibles > 0) { 
                         $this->boletos_disponibles -= 1;
-                        return $tarifa/2;
+                        return $tarifa / 2;
                     }
-                } 
-        } else {
-            $this->guardarDia($dia_actual);
-            $this->guardarMin($hora_actual);
-            $this->boletos_disponibles = 3;
-            return $tarifa/2;
+                }
+                return $tarifa;
+            } else {
+                $this->guardarDia($dia_actual);
+                $this->guardarMin($hora_actual);
+                $this->boletos_disponibles = 3;
+                return $tarifa / 2;
+            }
         }
         
         return $tarifa;
     }
- 
-    }
+
 
     public function guardarDia($dia) {
         $this->dia_anterior = $dia;
