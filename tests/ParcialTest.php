@@ -26,7 +26,7 @@ class ParcialTest extends TestCase {
         $saldo_anterior = $medioboleto->obtenerSaldo();
         $colectivo->pagarCon($medioboleto);
         $nuevo_saldo = $medioboleto->obtenerSaldo();
-        $this->assertEquals($nuevo_saldo, $saldo_anterior - $tarifa_medio);
+        $this->assertEquals($nuevo_saldo, $saldo_anterior - $tarifa_medio); // NO ANDA
 
         // Verificar que se puede pagar sin tener saldo suficiente y funciona el negativo
         $saldo_anterior = $medioboleto->obtenerSaldo();

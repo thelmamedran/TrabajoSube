@@ -25,7 +25,7 @@ class CompletaEstudiantilTest extends TestCase {
         // Verificar que se no se cobre
         $colectivo->pagarCon($boletogratuito);
         $nuevo_saldo = $boletogratuito->obtenerSaldo();
-        $this->assertEquals($nuevo_saldo, 150);
+        $this->assertEquals($nuevo_saldo, 150); // NO ANDA
 
         // Verificar que se puede pagar sin tener saldo suficiente y funciona el negativo
         $saldo_anterior = $boletogratuito->obtenerSaldo();

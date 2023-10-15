@@ -26,6 +26,6 @@ class CompletaTest extends TestCase {
             $colectivo->pagarCon($boletogratuito);
 
         $nuevo_saldo = $boletogratuito->obtenerSaldo();
-        $this->assertEquals($nuevo_saldo, 150);
+        $this->assertEquals($nuevo_saldo, 150);  
     }
 }
