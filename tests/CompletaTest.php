@@ -8,7 +8,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class CompletaTest extends TestCase {
 
     public function test() {
-        $colectivo = new Colectivo(132, false);
+        $colectivo = new Colectivo(132);
         $boletogratuito = new FranquiciaCompleta();
 
         // Cargar monto válido y verificar que se cargue
