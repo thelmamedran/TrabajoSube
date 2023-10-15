@@ -64,14 +64,15 @@ class Colectivo {
     
     private function pagarConSaldoSuficiente($tarjeta, $tarifa, $deuda_inicial, $saldo_inicial) {
         $tarjeta->pagarViaje($tarifa);
-        $tarjeta->actualizarDeuda($deuda_inicial);
+        if ($tarifa > 0) {
+            $tarjeta->actualizarDeuda($tarifa);
+        }
         $saldo_restante = $tarjeta->obtenerSaldo();
         $abono_deuda = $tarifa === 0 ? 'No abona saldo' : 'Abona saldo ' . $deuda_inicial;
     
         return $this->crearBoleto($tarjeta, $tarifa, $saldo_inicial, $abono_deuda);
     }
-    
-
+ 
     private function crearBoleto($tarjeta, $tarifa, $saldo_inicial, $abono_deuda) {
         $id = $tarjeta->obtenerId();
         $tipo = $tarjeta->obtenerTipo();
