@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 
 class FranjaHorariaTest extends TestCase {
-    public function testFranquiciasValidas() {
+    public function test() {
         $colectivo = new Colectivo(132);
 
         // Verificar que las franquicias sean válidas en la franja horaria
