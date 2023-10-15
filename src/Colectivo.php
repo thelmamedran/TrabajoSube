@@ -61,22 +61,16 @@ class Colectivo {
         
         return $this->crearBoleto($tarjeta, $tarifa_total, $saldo_inicial, $abono_deuda);
     }
-
+    
     private function pagarConSaldoSuficiente($tarjeta, $tarifa, $deuda_inicial, $saldo_inicial) {
         $tarjeta->pagarViaje($tarifa);
         $tarjeta->actualizarDeuda($tarifa);
         $saldo_restante = $tarjeta->obtenerSaldo();
         $abono_deuda = $tarifa === 0 ? 'No abona saldo' : 'Abona saldo ' . $deuda_inicial;
-
-        // Corrección del saldo restante
-        if ($tarifa === 0) {
-            $saldo_restante = $tarjeta->obtenerSaldo();
-        } else {
-            $saldo_restante = $tarjeta->obtenerSaldo() - $deuda_inicial;
-        }
     
         return $this->crearBoleto($tarjeta, $tarifa, $saldo_inicial, $abono_deuda);
     }
+    
 
     private function crearBoleto($tarjeta, $tarifa, $saldo_inicial, $abono_deuda) {
         $id = $tarjeta->obtenerId();
