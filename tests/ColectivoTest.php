@@ -35,5 +35,14 @@ class ColectivoTest extends TestCase {
         $this->assertInstanceOf(Boleto::class, $boleto);
         $nuevo_saldo = $boletogratuito->obtenerSaldo();
         $this->assertEquals($nuevo_saldo, 150);
+
+        // Prueba para Colectivo Interurbano
+        $colectivoInterurbano = new ColectivoInterurbano(300);
+        $tarjetaInterurbana = new Tarjeta();
+        $tarjetaInterurbana->cargarSaldo(200);
+        $boletoInteurbano = $colectivoInterurbano->pagarCon($tarjetaInterurbana);
+        // Verificar tarifa de colectivo interurbano
+        $this->assertInstanceOf(Boleto::class, $boletoInteurbano);
+        $this->assertEquals($colectivoInterurbano->obtenerTarifa(), 184);  
     }
 }
