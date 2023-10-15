@@ -22,6 +22,9 @@ class ColectivoTest extends TestCase {
         $this->assertNull($boleto);
 
         // Verificar que sin boletos disponibles no se puede viajar
+        $tiempoFalso = strtotime('2023-16-10 16:00:00');  
+        $this->setTime($tiempoFalso);
+
         $medioboleto = new FranquiciaParcial();
         $medioboleto->cargarSaldo(150);
         $boleto = $colectivo->pagarCon($medioboleto);

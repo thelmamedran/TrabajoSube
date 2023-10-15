@@ -12,6 +12,10 @@ class CompletaEstudiantilTest extends TestCase {
         $tarifa = 120;
         $tarifa_estudiantil = 0;
 
+        // Seteo tiempo falso para que la franquicia sea válida
+        $tiempoFalso = strtotime('2023-16-10 16:00:00');  
+        $this->setTime($tiempoFalso);
+
         // Cargar monto válido y verificar que se cargue
         $this->assertTrue($boletogratuito->cargarSaldo(150));
         $nuevo_saldo = $boletogratuito->obtenerSaldo();

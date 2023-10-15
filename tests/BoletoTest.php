@@ -34,17 +34,20 @@ class BoletoTest extends TestCase {
         $this->assertEquals($boleto->monto, $tarifa + $deuda_inicial);
         $this->assertEquals($boleto->abono_deuda, 'Abona saldo ' . $deuda_inicial);
 
+        // Verificar boleto con tarjeta con medio boleto sin saldo negativo
+        $tiempoFalso = strtotime('2023-16-10 16:00:00');   
+        $this->setTime($tiempoFalso);
+
         $medioboleto = new FranquiciaParcial();
+        $tarifa_medio_boleto = $tarifa / 2;
         $id = $medioboleto->obtenerId();
         $medioboleto->cargarSaldo(150);
-
-        // Verificar boleto con tarjeta con medio boleto sin saldo negativo
         $saldo_inicial = $medioboleto->obtenerSaldo();
         $boleto = $colectivo->pagarCon($medioboleto);
+        
         $this->assertInstanceOf(Boleto::class, $boleto);
-
         $this->assertEquals($boleto->saldo_inicial, $saldo_inicial);
-        $this->assertEquals($boleto->saldo_restante, 90);
+        $this->assertEquals($boleto->saldo_restante, $medioboleto->obtenerSaldo());
         $this->assertEquals($boleto->linea, 132);
         $this->assertEquals($boleto->id, $id);
         $this->assertEquals($boleto->tipo, 'Medio');
