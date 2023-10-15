@@ -42,8 +42,9 @@ class BoletoTest extends TestCase {
         $saldo_inicial = $medioboleto->obtenerSaldo();
         $boleto = $colectivo->pagarCon($medioboleto);
         $this->assertInstanceOf(Boleto::class, $boleto);
-        $tarifa_medio_boleto = $tarifa / 2;
-        $saldo_restante_medio_boleto = $saldo_inicial - $tarifa_medio_boleto;
+
+        $saldo_restante_medio_boleto = $saldo_inicial - ($tarifa / 2);
+
         $this->assertEquals($boleto->saldo_inicial, $saldo_inicial);
         $this->assertEquals($boleto->saldo_restante, $saldo_restante_medio_boleto);
         $this->assertEquals($boleto->linea, 132);
