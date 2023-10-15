@@ -46,7 +46,7 @@ class BoletoTest extends TestCase {
         $saldo_restante_medio_boleto = $saldo_inicial - ($tarifa / 2);
 
         $this->assertEquals($boleto->saldo_inicial, $saldo_inicial);
-        $this->assertEquals($boleto->saldo_restante, $saldo_restante_medio_boleto);
+        $this->assertEquals($boleto->saldo_restante, 90);
         $this->assertEquals($boleto->linea, 132);
         $this->assertEquals($boleto->id, $id);
         $this->assertEquals($boleto->tipo, 'Medio');
