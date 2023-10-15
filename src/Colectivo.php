@@ -32,21 +32,21 @@ class Colectivo {
 
     private function pagarSinDeuda($tarjeta, $saldo_a_favor, $tarifa, $saldo_inicial) {
         if ($saldo_a_favor < $tarifa) {
+            $saldo_restante = $tarjeta->pagarViaje($tarifa - $saldo_a_favor);
             $tarjeta->actualizarSaldoAFavor(-$saldo_a_favor);
-            $tarjeta->pagarViaje($tarifa - $saldo_a_favor);
         } else {
+            $saldo_restante = $tarjeta->pagarViaje($tarifa);
             $tarjeta->actualizarSaldoAFavor(-$tarifa);
         }
-
-        $saldo_restante = $tarjeta->obtenerSaldo();
+    
         if ($saldo_restante < 0) {
             $tarjeta->actualizarDeuda(abs($saldo_restante));
         }
-        
+    
         $abono_deuda = "No abona saldo";
         return $this->crearBoleto($tarjeta, $tarifa, $saldo_inicial, $abono_deuda);
     }
-
+    
     private function pagarConDeudaSuficiente($tarjeta, $tarifa, $deuda_inicial, $saldo_inicial) {
         $tarifa_total = $tarifa + $deuda_inicial;
         $tarjeta->pagarViaje($tarifa_total);
