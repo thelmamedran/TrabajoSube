@@ -3,7 +3,7 @@
 class ColectivoInterurbano extends Colectivo {
     private int $tarifa_interurbana = 184;
 
-   /* public function __construct($linea){
+   public function __construct($linea){
         parent::__construct($linea);
     }
 
@@ -24,5 +24,5 @@ class ColectivoInterurbano extends Colectivo {
         }
         
         return $boleto;
-    }*/
+    }
 }
