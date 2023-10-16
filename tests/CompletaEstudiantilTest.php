@@ -91,7 +91,7 @@ class CompletaEstudiantilTest extends TestCase {
          $boletosDisponibles->setAccessible(true);
  
          // Verificar que cuando es hora válida y hay boletos disponibles se cobra 0
-         $boletogratuito->guardarDia(10);  
+         $boletogratuito->guardarDia(4);  
          $boletosDisponibles->setValue($boletogratuito, 1);  
          $tarifa = $boletogratuito->tarifaAPagar(120);  
          $this->assertEquals(0, $tarifa);  
