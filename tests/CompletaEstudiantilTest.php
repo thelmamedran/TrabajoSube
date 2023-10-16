@@ -84,5 +84,26 @@ class CompletaEstudiantilTest extends TestCase {
         $colectivo->pagarCon($boletogratuito2);
         $nuevo_saldo = $boletogratuito2->obtenerSaldo();
         $this->assertEquals($nuevo_saldo, $saldo_anterior - $tarifa_estudiantil);
-    }
+
+         // Método público para cambiar el valor de boletos_disponibles (private)
+         $reflection = new \ReflectionClass($boletogratuito);
+         $boletosDisponibles = $reflection->getProperty('boletos_disponibles');
+         $boletosDisponibles->setAccessible(true);
+ 
+         // Verificar que cuando es hora válida y hay boletos disponibles se cobra 0
+         $boletogratuito->guardarDia(10);  
+         $boletosDisponibles->setValue($boletogratuito, 1);  
+         $tarifa = $boletogratuito->tarifaAPagar(120);  
+         $this->assertEquals(0, $tarifa);  
+ 
+         // Verificar que cuando es hora válida pero no hay boletos disponibles se cobra la tarifa normal
+         $boletosDisponibles->setValue($boletogratuito, 0);  
+         $tarifa = $boletogratuito->tarifaAPagar(120);  
+         $this->assertEquals(120, $tarifa); 
+ 
+         // Verificar que cuando no es hora válida se cobra la tarifa normal
+         $boletogratuito->dia_de_semana_actual = 6;  
+         $tarifa = $boletogratuito->tarifaAPagar(120);  
+         $this->assertEquals(120, $tarifa); 
+     }
 }
