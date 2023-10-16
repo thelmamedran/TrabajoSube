@@ -11,6 +11,8 @@ class FranquiciaCompletaEstudiantil extends FranquiciaCompleta {
         $this->tipo = "Gratuito";
         $this->saldo_a_favor = 0;
         $this->deuda_plus = 0;
+        $this->hora_actual = date('H');
+        $this->dia_de_semana_actual = date('N');
         $this->dia_anterior = 0;
         $this->boletos_disponibles = 2;
     }
@@ -18,7 +20,7 @@ class FranquiciaCompletaEstudiantil extends FranquiciaCompleta {
     public function tarifaAPagar(float $tarifa): float {
         $dia_actual = (int)date("d");
         
-        if ($this->esHoraValida()) {
+        if ($this->esHoraValida($this->dia_de_semana_actual, $this->hora_actual)) {
             if ($this->dia_anterior == $dia_actual) {
                 if ($this->boletos_disponibles > 0) { 
                     $this->boletos_disponibles -= 1;

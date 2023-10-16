@@ -16,7 +16,9 @@ class Tarjeta {
         $this->saldo_a_favor = 0;
         $this->id = rand(1, 10000);
         $this->saldo = 0;
-        $this->mes = 0;
+        $this->mes = 0; 
+        $this->hora_actual = date('H');
+        $this->dia_de_semana_actual = date('N');
         $this->viajes = 0;
         $this->tipo = "Normal";
         $this->deuda_plus = 0;
@@ -110,9 +112,13 @@ class Tarjeta {
         $this->viajes = 1;
     }
 
-    public function esHoraValida(): bool {
-        $dia_semana = date('N');  
-        $hora_actual = date('H');
-        return ($dia_semana >= 1 && $dia_semana <= 5) && ($hora_actual >= 6 && $hora_actual < 22);
+    public function guardarDiaYHora($dia, $hora) {
+        $this->dia_de_semana_actual = $dia;
+        $this->hora_actual = $hora;
     }
+
+    public function esHoraValida($dia_semana, $hora_actual): bool {
+        return ($dia_semana >= 1 && $dia_semana <= 5) && ($hora_actual >= 6 && $hora_actual <= 21);
+    }
+    
 }

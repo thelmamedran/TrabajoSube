@@ -11,6 +11,8 @@ class FranquiciaParcial extends Tarjeta {
         $this->tipo = "Medio";
         $this->saldo_a_favor = 0;
         $this->deuda_plus = 0;
+        $this->hora_actual = date('H');
+        $this->dia_de_semana_actual = date('N');
         $this->minuto_anterior = 0;
         $this->dia_anterior = 0;
         $this->boletos_disponibles = 4;
@@ -20,7 +22,7 @@ class FranquiciaParcial extends Tarjeta {
         $hora_actual = (int)date('i');
         $dia_actual = (int)date("d");
 
-        if ($this->esHoraValida()) {
+        if ($this->esHoraValida($this->dia_de_semana_actual, $this->hora_actual)) {
             if ($this->dia_anterior == $dia_actual) {
                 if (abs($hora_actual - $this->minuto_anterior) >= 5) {
                     if ($this->boletos_disponibles > 0) { 
@@ -47,11 +49,5 @@ class FranquiciaParcial extends Tarjeta {
 
     public function guardarMin($mins) {
         $this->minuto_anterior = $mins;
-    }
-
-    public function esHoraValida(): bool {
-        $dia_semana = date('N');  
-        $hora_actual = date('H');
-        return ($dia_semana >= 1 && $dia_semana <= 5) && ($hora_actual >= 6 && $hora_actual < 22);
     }
 }

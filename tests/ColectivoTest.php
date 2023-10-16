@@ -22,10 +22,10 @@ class ColectivoTest extends TestCase {
         $this->assertNull($boleto);
 
         // Verificar que sin boletos disponibles no se puede viajar
-        $tiempoFalso = strtotime('2023-16-10 16:00:00');  
-        $this->setTime($tiempoFalso);
-
         $medioboleto = new FranquiciaParcial();
+        $fecha_falsa = new \DateTime('2023-10-09 06:00:00');
+        $medioboleto->guardarDiaYHora(date('N', $fecha_falsa->getTimestamp()), date('H', $fecha_falsa->getTimestamp()));
+        
         $medioboleto->cargarSaldo(150);
         $boleto = $colectivo->pagarCon($medioboleto);
         $this->assertInstanceOf(Boleto::class, $boleto);
@@ -33,6 +33,9 @@ class ColectivoTest extends TestCase {
         $this->assertEquals($nuevo_saldo, 90); //NO ANDA
      
         $boletogratuito = new FranquiciaCompleta();
+        $fecha_falsa = new \DateTime('2023-10-09 06:00:00');
+        $boletogratuito->guardarDiaYHora(date('N', $fecha_falsa->getTimestamp()), date('H', $fecha_falsa->getTimestamp()));
+
         $boletogratuito->cargarSaldo(150);
         $boleto = $colectivo->pagarCon($boletogratuito);
         $this->assertInstanceOf(Boleto::class, $boleto);

@@ -11,12 +11,18 @@ class FranquiciaCompleta extends Tarjeta {
         $this->tipo = "Gratuito";
         $this->saldo_a_favor = 0;
         $this->deuda_plus = 0;
+        $this->hora_actual = date('H');
+        $this->dia_de_semana_actual = date('N');
         $this->dia_anterior = 0;
         $this->boletos_disponibles = 2;
     }
 
     public function tarifaAPagar(float $tarifa): float {
-        return 0;
+
+        if ($this->esHoraValida($this->dia_de_semana_actual, $this->hora_actual)) {
+            return 0;
+        }
+        return $tarifa;
     }
     
 }

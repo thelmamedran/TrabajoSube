@@ -35,10 +35,9 @@ class BoletoTest extends TestCase {
         $this->assertEquals($boleto->abono_deuda, 'Abona saldo ' . $deuda_inicial);
 
         // Verificar boleto con tarjeta con medio boleto sin saldo negativo
-        $tiempoFalso = strtotime('2023-16-10 16:00:00');   
-        $this->setTime($tiempoFalso);
-
         $medioboleto = new FranquiciaParcial();
+        $fecha_falsa = new \DateTime('2023-10-09 06:00:00');
+        $medioboleto->guardarDiaYHora(date('N', $fecha_falsa->getTimestamp()), date('H', $fecha_falsa->getTimestamp()));
         $tarifa_medio_boleto = $tarifa / 2;
         $id = $medioboleto->obtenerId();
         $medioboleto->cargarSaldo(150);
@@ -47,7 +46,7 @@ class BoletoTest extends TestCase {
         
         $this->assertInstanceOf(Boleto::class, $boleto);
         $this->assertEquals($boleto->saldo_inicial, $saldo_inicial);
-        $this->assertEquals($boleto->saldo_restante, $medioboleto->obtenerSaldo());
+        $this->assertEquals($boleto->saldo_restante, $saldo_inicial - $tarifa_medio_boleto);
         $this->assertEquals($boleto->linea, 132);
         $this->assertEquals($boleto->id, $id);
         $this->assertEquals($boleto->tipo, 'Medio');
@@ -55,6 +54,8 @@ class BoletoTest extends TestCase {
         $this->assertEquals($boleto->abono_deuda, 'No abona saldo');
 
         $boletogratuito = new FranquiciaCompleta();
+        $fecha_falsa = new \DateTime('2023-10-09 06:00:00');
+        $boletogratuito->guardarDiaYHora(date('N', $fecha_falsa->getTimestamp()), date('H', $fecha_falsa->getTimestamp()));
         $id = $boletogratuito->obtenerId();
         $boletogratuito->cargarSaldo(150);
 

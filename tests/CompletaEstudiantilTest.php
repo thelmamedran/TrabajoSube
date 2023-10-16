@@ -13,8 +13,8 @@ class CompletaEstudiantilTest extends TestCase {
         $tarifa_estudiantil = 0;
 
         // Seteo tiempo falso para que la franquicia sea válida
-        $tiempoFalso = strtotime('2023-16-10 16:00:00');  
-        $this->setTime($tiempoFalso);
+        $fecha_falsa = new \DateTime('2023-10-09 06:00:00');
+        $boletogratuito->guardarDiaYHora(date('N', $fecha_falsa->getTimestamp()), date('H', $fecha_falsa->getTimestamp()));
 
         // Cargar monto válido y verificar que se cargue
         $this->assertTrue($boletogratuito->cargarSaldo(150));
@@ -67,6 +67,8 @@ class CompletaEstudiantilTest extends TestCase {
 
         // Verificar en el mismo dia solo hay 2 gratuitos
         $boletogratuito2 = new FranquiciaCompletaEstudiantil();
+        $fecha_falsa = new \DateTime('2023-10-09 06:00:00');
+        $boletogratuito2->guardarDiaYHora(date('N', $fecha_falsa->getTimestamp()), date('H', $fecha_falsa->getTimestamp()));
         $boletogratuito2->cargarSaldo(300);
         $saldo_anterior = $boletogratuito2->obtenerSaldo();
         $colectivo->pagarCon($boletogratuito2);

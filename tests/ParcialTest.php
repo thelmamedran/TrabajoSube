@@ -13,8 +13,8 @@ class ParcialTest extends TestCase {
         $tarifa_medio = $tarifa/2;
 
         // Seteo tiempo falso para que la franquicia sea válida
-        $tiempoFalso = strtotime('2023-16-10 16:00:00');  
-        $this->setTime($tiempoFalso);
+        $fecha_falsa = new \DateTime('2023-10-09 06:00:00');
+        $medioboleto->guardarDiaYHora(date('N', $fecha_falsa->getTimestamp()), date('H', $fecha_falsa->getTimestamp()));
 
         // Cargar monto válido y verificar que se cargue
         $this->assertTrue($medioboleto->cargarSaldo(150));
@@ -59,6 +59,8 @@ class ParcialTest extends TestCase {
 
         // Verificar que en menos de 5 minutos no se cobren 2 medios
         $medioboleto2 = new FranquiciaParcial();
+        $fecha_falsa = new \DateTime('2023-10-09 06:00:00');
+        $medioboleto2->guardarDiaYHora(date('N', $fecha_falsa->getTimestamp()), date('H', $fecha_falsa->getTimestamp()));
         $medioboleto2->cargarSaldo(300);
         $saldo_anterior = $medioboleto2->obtenerSaldo();
         $colectivo->pagarCon($medioboleto2);
